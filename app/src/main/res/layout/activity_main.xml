@@ -70,7 +70,7 @@
             android:layout_weight="0.1"
             android:textSize="@dimen/textCountrySize"
             android:gravity="center"
-            android:text="London, GB" />
+            android:text="@string/london_gb" />
         <TextView
             android:id="@+id/textDescription"
             android:layout_width="match_parent"
