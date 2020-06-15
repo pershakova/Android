@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">WeatherApp</string>
+    <string name="background">background</string>
+    <string name="light_snow">Light snow</string>
+</resources>
