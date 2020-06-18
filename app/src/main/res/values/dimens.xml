@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="textCountrySize">50sp</dimen>
+    <dimen name="textDescriptionSize">30sp</dimen>
+    <dimen name="textTemperatureSize">150sp</dimen>
+    <dimen name="upperPanelSize">20sp</dimen>
+</resources>
