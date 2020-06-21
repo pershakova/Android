@@ -3,4 +3,10 @@
     <string name="background">background</string>
     <string name="light_snow">Light snow</string>
     <string name="london_gb">London, GB</string>
+    <string-array name="cities">
+        <item>London</item>
+        <item>Tokio</item>
+        <item>New-York</item>
+        <item>Moscow</item>
+    </string-array>
 </resources>
