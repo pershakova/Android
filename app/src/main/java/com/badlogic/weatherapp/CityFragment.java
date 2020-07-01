@@ -18,9 +18,9 @@ import android.widget.Toast;
 import static com.badlogic.weatherapp.Constants.CITY;
 
 public class CityFragment extends Fragment {
-    Spinner spinner;
-    TextView city;
-    Button backButton;
+    private Spinner spinner;
+    private TextView city;
+    private Button backButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
