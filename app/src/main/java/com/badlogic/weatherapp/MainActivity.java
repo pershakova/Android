@@ -14,9 +14,6 @@ import static com.badlogic.weatherapp.Constants.CITY;
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "Info";
-    private final String temperatureKey = "temperature";
-    private TextView temperatureTextView;
-    private TextView cityTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +21,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Log("onCreate()");
 
-        temperatureTextView = findViewById(R.id.textTemperature);
-        cityTextView = findViewById(R.id.textCountry);
-
-        startCityActivity();
-        getDataFromIntent();
+        WeatherFragment details = new WeatherFragment();
+        details.setArguments(getIntent().getExtras());
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, details).commit();
     }
 
     @Override
@@ -40,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestoreInstanceState(Bundle saveInstanceState){
         Log("onRestoreInstanceState()");
-        restoreData(saveInstanceState);
         super.onRestoreInstanceState(saveInstanceState);
     }
 
@@ -59,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle saveInstanceState){
         Log("onSaveInstanceState()");
-        saveData(saveInstanceState);
         super.onSaveInstanceState(saveInstanceState);
     }
 
@@ -86,33 +81,4 @@ public class MainActivity extends AppCompatActivity {
         Log.d(TAG, "onRestart()");
     }
 
-    private void saveData(Bundle saveInstanceState){
-        saveInstanceState.putString(temperatureKey, temperatureTextView.getText().toString());
-    }
-
-    private void restoreData(Bundle saveInstanceState){
-        temperatureTextView.setText(saveInstanceState.getString(temperatureKey));
-    }
-
-    private void startCityActivity(){
-        cityTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, CityActivity.class);
-                startActivity(intent);
-            }
-        });
-    }
-
-    private void getDataFromIntent(){
-        Bundle bundle = getIntent().getExtras();
-        if (bundle == null) {
-            return;
-        }
-
-        String text = bundle.getString(CITY);
-        if (!text.isEmpty()){
-            cityTextView.setText(text);
-        }
-    }
 }
