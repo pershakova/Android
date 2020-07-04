@@ -5,8 +5,18 @@
     <string name="london_gb">London, GB</string>
     <string-array name="cities">
         <item>London</item>
-        <item>Tokio</item>
+        <item>Tokyo</item>
         <item>New-York</item>
         <item>Moscow</item>
+    </string-array>
+    <string-array name="date">
+        <item>03.07</item>
+        <item>04.07</item>
+        <item>05.07</item>
+        </string-array>
+    <string-array name="pictures">
+        <item>@drawable/rain</item>
+        <item>@drawable/cloudy</item>
+        <item>@drawable/windforce</item>
     </string-array>
 </resources>

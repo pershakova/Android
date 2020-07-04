@@ -8,8 +8,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.Objects;
 
 import static com.badlogic.weatherapp.Constants.CITY;
 
@@ -18,16 +24,22 @@ public class WeatherFragment extends Fragment {
     private final String temperatureKey = "temperature";
     private TextView temperatureTextView;
     private TextView cityTextView;
+    private RecyclerView recyclerView;
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.first_screen_fragment, container, false);
+        view = inflater.inflate(R.layout.first_screen_fragment, container, false);
 
         temperatureTextView = view.findViewById(R.id.textTemperature);
         cityTextView = view.findViewById(R.id.textCountry);
 
         initCityFragment();
+
+        PictureDataSource sourceData = new PictureDataSource(getResources());
+        initRecyclerView(sourceData.init());
+        initDecorator();
         return view;
     }
 
@@ -62,5 +74,30 @@ public class WeatherFragment extends Fragment {
                 fragmentTransaction.commit();
             }
         });
+    }
+
+    private void initRecyclerView(PictureDataSource sourceData){
+        recyclerView = view.findViewById(R.id.recycler_view);
+
+        recyclerView.setHasFixedSize(true);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        SocnetAdapter adapter = new SocnetAdapter(sourceData);
+        recyclerView.setAdapter(adapter);
+
+        adapter.setOnItemClickListener(new SocnetAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Toast.makeText(getContext(), String.format("Позиция - %d", position), Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void initDecorator(){
+        DividerItemDecoration itemDecoration = new DividerItemDecoration(Objects.requireNonNull(getContext()),  LinearLayoutManager.VERTICAL);
+        itemDecoration.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.separator));
+        recyclerView.addItemDecoration(itemDecoration);
     }
 }
