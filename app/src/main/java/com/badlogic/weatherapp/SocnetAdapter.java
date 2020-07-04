@@ -25,17 +25,18 @@ public class SocnetAdapter extends RecyclerView.Adapter<SocnetAdapter.ViewHolder
         View v = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.item, viewGroup, false);
         ViewHolder vh = new ViewHolder(v);
-        if (itemClickListener != null) {
-            vh.setOnClickListener(itemClickListener);
-        }
+
         Log.d("SocnetAdapter", "onCreateViewHolder");
         return vh;
     }
 
     @Override
     public void onBindViewHolder(@NonNull SocnetAdapter.ViewHolder viewHolder, int i) {
+        if (itemClickListener != null) {
+            viewHolder.setOnClickListener(itemClickListener);
+        }
         PictureData soc = dataSource.getSoc(i);
-        viewHolder.setData(soc.getDescription(), soc.getPicture());
+        viewHolder.setData(soc);
         Log.d("SocnetAdapter", "onBindViewHolder");
     }
 
@@ -48,7 +49,7 @@ public class SocnetAdapter extends RecyclerView.Adapter<SocnetAdapter.ViewHolder
         void onItemClick(View view , int position);
     }
 
-    public void SetOnItemClickListener(OnItemClickListener itemClickListener){
+    public void setOnItemClickListener(OnItemClickListener itemClickListener){
         this.itemClickListener = itemClickListener;
     }
 
@@ -74,9 +75,9 @@ public class SocnetAdapter extends RecyclerView.Adapter<SocnetAdapter.ViewHolder
             });
         }
 
-        public void setData(String description, int picture){
-            getImage().setImageResource(picture);
-            getDescription().setText(description);
+        public void setData(PictureData pictureData){
+            getImage().setImageResource(pictureData.getPicture());
+            getDescription().setText(pictureData.getDescription());
         }
 
         public TextView getDescription() {

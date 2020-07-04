@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PictureDataSource {
-    private List<PictureData> dataSource;   // строим этот источник данных
-    private Resources resources;    // ресурсы приложения
+    private List<PictureData> dataSource;
+    private Resources resources;
 
     public PictureDataSource(Resources resources) {
         dataSource = new ArrayList<>(6);
