@@ -34,7 +34,7 @@
             android:gravity="top|center"
             android:entries="@array/cities" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/buttonBack"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
@@ -42,6 +42,7 @@
             android:layout_marginBottom="16dp"
             android:layout_weight="0.5"
             android:text="Back"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 </LinearLayout>
