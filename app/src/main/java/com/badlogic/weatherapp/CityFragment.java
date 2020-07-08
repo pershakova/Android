@@ -13,19 +13,19 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
+import com.google.android.material.snackbar.Snackbar;
 import static com.badlogic.weatherapp.Constants.CITY;
 
 public class CityFragment extends Fragment {
     private Spinner spinner;
     private TextView city;
     private Button backButton;
+    private View view;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.city_layout, container, false);
+        view = inflater.inflate(R.layout.city_layout, container, false);
 
         spinner = view.findViewById(R.id.spinner);
         city = view.findViewById(R.id.city);
@@ -46,9 +46,8 @@ public class CityFragment extends Fragment {
                                        View itemSelected, int selectedItemPosition, long selectedId) {
 
                 String[] choose = getResources().getStringArray(R.array.cities);
-                Toast toast = Toast.makeText(getContext(),
-                        "You selected: " + choose[selectedItemPosition], Toast.LENGTH_SHORT);
-                toast.show();
+                Snackbar.make(view,
+                        "You selected: " + choose[selectedItemPosition], Snackbar.LENGTH_SHORT).show();
 
                 city.setText(choose[selectedItemPosition]);
             }

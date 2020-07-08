@@ -14,7 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.google.android.material.snackbar.Snackbar;
 import java.util.Objects;
 
 import static com.badlogic.weatherapp.Constants.CITY;
@@ -90,7 +90,7 @@ public class WeatherFragment extends Fragment {
         adapter.setOnItemClickListener(new SocnetAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Toast.makeText(getContext(), String.format("Позиция - %d", position), Toast.LENGTH_SHORT).show();
+                Snackbar.make(view, String.format("Позиция - %d", position), Snackbar.LENGTH_SHORT).show();
             }
         });
     }
