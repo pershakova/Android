@@ -9,4 +9,21 @@
         <item>Нью-Йорк</item>
         <item>Москва</item>
     </string-array>
+
+    <string name="navigation_drawer_open" >Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">О нас</string>
+    <string name="menu_gallery">Обратная связь</string>
+    <string name="menu_tools">Инструменты</string>
+    <string name="menu_share">Поделиться</string>
+    <string name="add">Добавить город</string>
+    <string name="update">Обновить</string>
+    <string name="remove">Удалить город</string>
+    <string name="clear">Очистить</string>
+    <string name="search">Поиск</string>
 </resources>
