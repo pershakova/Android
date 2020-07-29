@@ -19,13 +19,13 @@
             android:layout_weight="1"
             app:srcCompat="@drawable/windforce" />
         <TextView
-            android:id="@+id/textWindforce"
+            android:id="@+id/textAmbientTemperature"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:textSize="@dimen/upperPanelSize"
             android:gravity="center"
             android:layout_weight="0.5"
-            android:text="15m/s" />
+            android:text="°C" />
         <ImageView
             android:id="@+id/imageHumidity"
             android:layout_width="wrap_content"
@@ -39,7 +39,7 @@
             android:textSize="@dimen/upperPanelSize"
             android:gravity="center"
             android:layout_weight="0.5"
-            android:text="90%" />
+            android:text="%" />
     </LinearLayout>
     <TextView
         android:id="@+id/textTemperature"

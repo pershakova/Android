@@ -11,7 +11,11 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -29,12 +33,15 @@ import com.google.android.material.snackbar.Snackbar;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.badlogic.weatherapp.Constants.CITY;
-
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SensorEventListener {
 
     private final String TAG = "Info";
     private ListAdapter adapter;
+    private SensorManager sensorManager;
+    private Sensor sensorAmbientTemperature;
+    private Sensor sensorRelativeHumidity;
+    private TextView textAmbientTemperature;
+    private TextView textRelativeHumidity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +59,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         initFab();
         initDrawer(toolbar);
         initList();
+        initControls();
+        initSensors();
     }
-    
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -151,12 +160,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onResume() {
         super.onResume();
         Log("onResume()");
+        sensorManager.registerListener(this, sensorAmbientTemperature, SensorManager.SENSOR_DELAY_NORMAL);
+        sensorManager.registerListener(this, sensorRelativeHumidity, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         Log("onPause()");
+        sensorManager.unregisterListener(this);
     }
 
     @Override
@@ -181,6 +193,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onDestroy() {
         super.onDestroy();
         Log("onDestroy()");
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        switch (event.sensor.getType()) {
+            case Sensor.TYPE_AMBIENT_TEMPERATURE:
+                textAmbientTemperature.setText(String.valueOf(event.values[0])+"°C");
+                break;
+            case Sensor.TYPE_RELATIVE_HUMIDITY:
+                textRelativeHumidity.setText(String.valueOf(event.values[0])+"%");
+                break;
+        }
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
 
     private void Log(String message){
@@ -256,5 +284,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             list.add(String.format("Element %d", i));
         }
         return list;
+    }
+
+    private void initSensors(){
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        if (sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE) != null){
+            sensorAmbientTemperature = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE);
+        } else {
+            Log.d(TAG, "TYPE_AMBIENT_TEMPERATURE sensor is absent");
+        }
+        if (sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY) != null){
+            sensorRelativeHumidity = sensorManager.getDefaultSensor(Sensor.TYPE_RELATIVE_HUMIDITY);
+        } else {
+            Log.d(TAG, "TYPE_RELATIVE_HUMIDITY sensor is absent");
+        }
+    }
+
+    private void initControls(){
+        textAmbientTemperature = findViewById(R.id.textAmbientTemperature);
+        textRelativeHumidity = findViewById(R.id.textHumidity);
     }
 }
