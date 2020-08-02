@@ -11,7 +11,10 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -35,6 +38,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SensorEventListener {
 
+    static final String BROADCAST_ACTION_CALCFINISHED = "ru.geekbrains.service.calculationfinished";
     private final String TAG = "Info";
     private ListAdapter adapter;
     private SensorManager sensorManager;
@@ -148,6 +152,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onStart() {
         super.onStart();
         Log("onStart()");
+        registerReceiver(calculationFinishedReceiver, new IntentFilter(BROADCAST_ACTION_CALCFINISHED));
     }
 
     @Override
@@ -181,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onStop() {
         super.onStop();
         Log("onStop()");
+        unregisterReceiver(calculationFinishedReceiver);
     }
 
     @Override
@@ -304,4 +310,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         textAmbientTemperature = findViewById(R.id.textAmbientTemperature);
         textRelativeHumidity = findViewById(R.id.textHumidity);
     }
+
+    private BroadcastReceiver calculationFinishedReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String result = intent.getStringExtra(DataService.PREDICTION_RESULT);
+            // TODO: parse json and post data
+        }
+    };
 }

@@ -25,6 +25,12 @@
             android:layout_weight="1"
             android:gravity="start"
             android:text="Show additional information" />
+        <Button
+            android:id="@+id/buttonService"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:text="Weather on date" />
 
         <Spinner
             android:id="@+id/spinner"
