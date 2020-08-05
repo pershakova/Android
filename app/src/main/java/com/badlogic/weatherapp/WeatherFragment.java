@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,14 +16,28 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.badlogic.weatherapp.interfaces.OpenWeather;
+import com.badlogic.weatherapp.models.WeatherRequest;
 import com.google.android.material.snackbar.Snackbar;
+import com.squareup.picasso.Picasso;
+
 import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static com.badlogic.weatherapp.Constants.CITY;
 
 public class WeatherFragment extends Fragment {
+    private static final float AbsoluteZero = -273.15f;
+    private OpenWeather openWeather;
+
     private final String TAG = "Info";
-    private final String temperatureKey = "temperature";
+
     private TextView temperatureTextView;
     private TextView cityTextView;
     private RecyclerView recyclerView;
@@ -40,6 +56,10 @@ public class WeatherFragment extends Fragment {
         PictureDataSource sourceData = new PictureDataSource(getResources());
         initRecyclerView(sourceData.init());
         initDecorator();
+
+        initRetorfit();
+        initEvents();
+        loadWeatherPicture();
         return view;
     }
 
@@ -57,6 +77,49 @@ public class WeatherFragment extends Fragment {
     public void onSaveInstanceState(Bundle saveInstanceState){
         Log("onSaveInstanceState()");
         super.onSaveInstanceState(saveInstanceState);
+    }
+
+    private void initEvents() {
+        Button button = view.findViewById(R.id.refresh);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                requestRetrofit(cityTextView.getText().toString(), getString(R.string.Key));
+            }
+        });
+    }
+
+    private void initRetorfit() {
+        Retrofit retrofit;
+        retrofit = new Retrofit.Builder()
+                .baseUrl(getString(R.string.URL))
+                .addConverterFactory(GsonConverterFactory.create()).build();
+        openWeather = retrofit.create(OpenWeather.class);
+    }
+
+    private void requestRetrofit(String city, String keyApi) {
+        openWeather.loadWeather(city, keyApi)
+                .enqueue(new Callback<WeatherRequest>() {
+                    @Override
+                    public void onResponse(Call<WeatherRequest> call, Response<WeatherRequest> response) {
+                        if (response.body() != null) {
+                            float result = response.body().getMain().getTemp() + AbsoluteZero;
+                            temperatureTextView.setText(Float.toString(result));
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<WeatherRequest> call, Throwable t) {
+                        temperatureTextView.setText("Error");
+                    }
+                });
+    }
+
+    private void loadWeatherPicture(){
+        ImageView imageView = view.findViewById(R.id.imageDescriptionPicture);
+        Picasso.get()
+                .load("https://c1.staticflickr.com/1/186/31520440226_175445c41a_b.jpg")
+                .into(imageView);
     }
 
     private void Log(String message){

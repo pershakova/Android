@@ -36,4 +36,6 @@
     <string name="remove">Remove city</string>
     <string name="clear">Clear</string>
     <string name="search">Search</string>
+    <string name="URL">http://api.openweathermap.org/</string>
+    <string name="Key">11d3ced5c3af179985cafe979dc6b5bf</string>
 </resources>
