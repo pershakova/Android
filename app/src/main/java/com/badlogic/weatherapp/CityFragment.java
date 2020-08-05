@@ -14,6 +14,10 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static com.badlogic.weatherapp.Constants.CITY;
 
 public class CityFragment extends Fragment {
@@ -31,6 +35,14 @@ public class CityFragment extends Fragment {
         city = view.findViewById(R.id.city);
         backButton = view.findViewById(R.id.buttonBack);
         clickBackButton();
+
+        view.findViewById(R.id.buttonService).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DataService.startDataService(getContext(), new SimpleDateFormat("yyyy/MM/dd").format(new Date()));
+            }
+        });
+
         return view;
     }
 
