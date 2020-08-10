@@ -9,7 +9,12 @@
         <item>Нью-Йорк</item>
         <item>Москва</item>
     </string-array>
-
+    <string-array name="temperatures">
+        <item>23</item>
+        <item>24</item>
+        <item>22</item>
+        <item>18</item>
+    </string-array>
     <string name="navigation_drawer_open" >Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_header_title">Android Studio</string>
