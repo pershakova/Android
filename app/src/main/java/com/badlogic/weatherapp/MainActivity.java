@@ -15,6 +15,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -46,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Sensor sensorRelativeHumidity;
     private TextView textAmbientTemperature;
     private TextView textRelativeHumidity;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

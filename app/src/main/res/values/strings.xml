@@ -9,6 +9,12 @@
         <item>New-York</item>
         <item>Moscow</item>
     </string-array>
+    <string-array name="temperatures">
+        <item>23</item>
+        <item>24</item>
+        <item>22</item>
+        <item>18</item>
+    </string-array>
     <string-array name="date">
         <item>03.07</item>
         <item>04.07</item>
@@ -36,6 +42,6 @@
     <string name="remove">Remove city</string>
     <string name="clear">Clear</string>
     <string name="search">Search</string>
-    <string name="URL">http://api.openweathermap.org/</string>
-    <string name="Key">11d3ced5c3af179985cafe979dc6b5bf</string>
+    <string name="URL" translatable="false">http://api.openweathermap.org/</string>
+    <string name="Key" translatable="false">11d3ced5c3af179985cafe979dc6b5bf</string>
 </resources>

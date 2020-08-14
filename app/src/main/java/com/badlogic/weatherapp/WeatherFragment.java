@@ -1,5 +1,8 @@
 package com.badlogic.weatherapp;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +20,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.badlogic.weatherapp.dao.CityDao;
+import com.badlogic.weatherapp.database.CityRecyclerAdapter;
+import com.badlogic.weatherapp.database.CitySource;
+import com.badlogic.weatherapp.database.RandomCity;
 import com.badlogic.weatherapp.interfaces.OpenWeather;
+import com.badlogic.weatherapp.models.City;
 import com.badlogic.weatherapp.models.WeatherRequest;
 import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
@@ -33,7 +41,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 import static com.badlogic.weatherapp.Constants.CITY;
 
 public class WeatherFragment extends Fragment {
+    public static final String APP_PREFERENCES = "WEATHERAPP";
+
     private static final float AbsoluteZero = -273.15f;
+
     private OpenWeather openWeather;
 
     private final String TAG = "Info";
@@ -43,6 +54,12 @@ public class WeatherFragment extends Fragment {
     private RecyclerView recyclerView;
     private View view;
 
+    private CityRecyclerAdapter adapter;
+    private CitySource citySource;
+
+    private SharedPreferences mSettings;
+    private final String cityKeyPreferences = "City";
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -51,15 +68,20 @@ public class WeatherFragment extends Fragment {
         temperatureTextView = view.findViewById(R.id.textTemperature);
         cityTextView = view.findViewById(R.id.textCountry);
 
-        initCityFragment();
+        mSettings = getActivity().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
-        PictureDataSource sourceData = new PictureDataSource(getResources());
-        initRecyclerView(sourceData.init());
+        initCityFragment();
+        loadCity();
+
+       // PictureDataSource sourceData = new PictureDataSource(getResources());
+       // initRecyclerView(sourceData.init());
+        initRecyclerView();
         initDecorator();
 
         initRetorfit();
         initEvents();
-        loadWeatherPicture();
+       // loadWeatherPicture();
+
         return view;
     }
 
@@ -77,6 +99,7 @@ public class WeatherFragment extends Fragment {
     public void onSaveInstanceState(Bundle saveInstanceState){
         Log("onSaveInstanceState()");
         super.onSaveInstanceState(saveInstanceState);
+        saveCity();
     }
 
     private void initEvents() {
@@ -162,5 +185,37 @@ public class WeatherFragment extends Fragment {
         DividerItemDecoration itemDecoration = new DividerItemDecoration(Objects.requireNonNull(getContext()),  LinearLayoutManager.VERTICAL);
         itemDecoration.setDrawable(ContextCompat.getDrawable(getContext(), R.drawable.separator));
         recyclerView.addItemDecoration(itemDecoration);
+    }
+
+    private void initRecyclerView() {
+        recyclerView = view.findViewById(R.id.recycler_list);
+        recyclerView.setHasFixedSize(true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(layoutManager);
+
+        CityDao cityDao = App
+                .getInstance()
+                .getCityDao();
+
+        adapter = new CityRecyclerAdapter(citySource, (Activity)getContext());
+        recyclerView.setAdapter(adapter);
+
+        City city = new RandomCity(getResources())
+                .rndCity();
+
+        citySource.addCity(city);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void saveCity(){
+        SharedPreferences.Editor editor = mSettings.edit();
+        editor.putString(cityKeyPreferences, cityTextView.getText().toString());
+        editor.apply();
+    }
+
+    private void loadCity(){
+        if(mSettings.contains(cityKeyPreferences)) {
+            cityTextView.setText(mSettings.getString(cityKeyPreferences, ""));
+        }
     }
 }
