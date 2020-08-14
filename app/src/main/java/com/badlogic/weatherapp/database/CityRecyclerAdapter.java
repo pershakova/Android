@@ -67,9 +67,9 @@ public class CityRecyclerAdapter
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        TextView city;
-        TextView temperature;
-        View cardView;
+        private TextView city;
+        private TextView temperature;
+        private View cardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

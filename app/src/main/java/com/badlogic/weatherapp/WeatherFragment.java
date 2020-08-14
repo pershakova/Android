@@ -57,8 +57,7 @@ public class WeatherFragment extends Fragment {
     private CityRecyclerAdapter adapter;
     private CitySource citySource;
 
-
-    SharedPreferences mSettings;
+    private SharedPreferences mSettings;
     private final String cityKeyPreferences = "City";
 
     @Override
@@ -197,7 +196,6 @@ public class WeatherFragment extends Fragment {
         CityDao cityDao = App
                 .getInstance()
                 .getCityDao();
-        citySource = new CitySource(cityDao);
 
         adapter = new CityRecyclerAdapter(citySource, (Activity)getContext());
         recyclerView.setAdapter(adapter);
