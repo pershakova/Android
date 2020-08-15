@@ -1,4 +1,4 @@
-package com.badlogic.weatherapp;
+package com.badlogic.weatherapp.fragments;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,6 +13,10 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.badlogic.weatherapp.DataService;
+import com.badlogic.weatherapp.R;
+
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
