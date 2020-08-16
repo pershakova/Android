@@ -70,6 +70,12 @@
         android:textSize="@dimen/textDescriptionSize"
         android:gravity="center"
         android:text="@string/light_snow" />
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonWeatherByCoordinates"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/findWeather"
+        android:layout_weight="1" />
     <ImageView
         android:id="@+id/imageDescriptionPicture"
         android:layout_width="match_parent"
