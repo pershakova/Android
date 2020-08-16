@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1081293702387",
+    "firebase_url": "https://weatherapp-5baca.firebaseio.com",
+    "project_id": "weatherapp-5baca",
+    "storage_bucket": "weatherapp-5baca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1081293702387:android:0da28acaab61b2411fe386",
+        "android_client_info": {
+          "package_name": "com.badlogic.weatherapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1081293702387-0pda05dlnrr3304pnm83h7abnu13u1ls.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4YaGyc6rTEQN6sHu-FkMdRjz49TamhxI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1081293702387-0pda05dlnrr3304pnm83h7abnu13u1ls.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

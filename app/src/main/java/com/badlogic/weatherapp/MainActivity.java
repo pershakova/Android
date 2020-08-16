@@ -15,11 +15,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -30,6 +30,9 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.badlogic.weatherapp.fragments.WeatherFragment;
+import com.badlogic.weatherapp.receivers.BatteryReceiver;
+import com.badlogic.weatherapp.receivers.NetworkReceiver;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -48,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private TextView textAmbientTemperature;
     private TextView textRelativeHumidity;
 
+    private BatteryReceiver batteryReceiver;
+    private NetworkReceiver networkReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +66,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .beginTransaction()
                 .replace(R.id.fragment_container, details).commit();
 
-        Toolbar toolbar = initToolbar();
-        initFab();
-        initDrawer(toolbar);
-        initList();
-        initControls();
+        batteryReceiver = new BatteryReceiver();
+        networkReceiver = new NetworkReceiver();
+        registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_LOW));
+        registerReceiver(networkReceiver, new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+
+      //  Toolbar toolbar = initToolbar();
+      //  initFab();
+     //   initDrawer(toolbar);
+     //   initList();
+      //  initControls();
         initSensors();
     }
 
@@ -201,6 +211,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     protected void onDestroy() {
         super.onDestroy();
         Log("onDestroy()");
+        unregisterReceiver(batteryReceiver);
+        unregisterReceiver(networkReceiver);
     }
 
     @Override
